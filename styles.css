@@ -1,23 +1,37 @@
 body {
-    font-family: Arial, sans-serif;
-    width: 300px;
-    padding: 10px;
-  }
-  
-  textarea {
-    width: 100%;
-    margin: 10px 0;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+  font-family: Arial, sans-serif;
+  width: 300px;
+  padding: 10px;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+textarea {
+  width: 100%;
+  margin: 10px 0;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+label {
+  font-weight: bold;
+}
+
+.functionality {
+  margin-bottom: 20px;
+}
