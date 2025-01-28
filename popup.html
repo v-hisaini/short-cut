@@ -14,47 +14,62 @@
     <option value="replaceText">Text Replacement (:) to (::)</option>
     <option value="replaceBrackets">Replace [ ] with {{}}</option>
     <option value="linkFormatter">Link Formatting Tool</option>
+    <option value="formatRequestMessage">Format Request Message</option>
     <option value="anotherFunction">Another Function</option>
   </select>
   <br><br>
 
+  <!-- Text Replacement Tool -->
   <div id="replaceText" class="functionality">
     <h3>Text Replacement Tool</h3>
     <label for="inputText">Enter your text:</label>
     <textarea id="inputText" rows="6" cols="50"></textarea><br><br>
-
     <button id="replaceButton">Replace Text</button><br><br>
-
     <label for="outputText">Output:</label>
-    <textarea id="outputText" rows="6" cols="50" readonly></textarea>
+    <textarea id="outputText" rows="6" cols="50" readonly></textarea><br><br>
+    <button id="copyReplaceText">Copy</button>
   </div>
 
+  <!-- Replace Brackets Tool -->
   <div id="replaceBrackets" class="functionality" style="display:none;">
     <h3>Replace [ ] with {{ }}</h3>
     <label for="inputBracketsText">Enter your text:</label>
-    <textarea id="inputBracketsText" rows="6" cols="50">
-    </textarea><br><br>
-
+    <textarea id="inputBracketsText" rows="6" cols="50"></textarea><br><br>
     <button id="replaceBracketsButton">Replace [ ] with { }</button><br><br>
-
     <label for="outputBracketsText">Output:</label>
-    <textarea id="outputBracketsText" rows="6" cols="50" readonly></textarea>
+    <textarea id="outputBracketsText" rows="6" cols="50" readonly></textarea><br><br>
+    <button id="copyReplaceBrackets">Copy</button>
   </div>
 
+  <!-- Link Formatting Tool -->
   <div id="linkFormatter" class="functionality" style="display:none;">
     <h3>Link Formatting Tool</h3>
     <label for="inputLinks">Paste your raw links (one per line):</label><br>
     <textarea id="inputLinks" rows="6" cols="50"></textarea><br><br>
-  
     <button id="formatLinksButton">Format Links</button><br><br>
-  
     <label for="outputFormattedLinks">Formatted Links (Markdown):</label><br>
-    <textarea id="outputFormattedLinks" rows="6" cols="50" readonly></textarea>
+    <textarea id="outputFormattedLinks" rows="6" cols="50" readonly></textarea><br><br>
+    <button id="copyFormatLinks">Copy</button>
   </div>
+
+  <!-- Format Request Message Tool -->
+  <div id="formatRequestMessage" class="functionality" style="display:none;">
+    <h3>Format V1 Paragraphs</h3>
+    <label for="inputRequestMessage">Enter your text:</label>
+    <textarea id="inputRequestMessage" rows="6" cols="50"></textarea><br><br>
+    <button id="formatRequestButton">Format Message</button><br><br>
+    <label for="outputRequestMessage">Formatted Output:</label>
+    <textarea id="outputRequestMessage" rows="6" cols="50" readonly></textarea><br><br>
+    <button id="copyFormattedText">Copy</button><br><br>
+    <label for="outputRequestComments">Comments:</label>
+    <textarea id="outputRequestComments" rows="6" cols="50" readonly></textarea><br><br>
+    <button id="copyComments">Copy</button>
+  </div>
+
+  <!-- Another Functionality (Example Placeholder) -->
   <div id="anotherFunction" class="functionality" style="display:none;">
     <h3>Another Function</h3>
     <p>This could be another functionality.</p>
-    <!-- Add your other functionality UI here -->
   </div>
 
   <script src="popup.js"></script>
