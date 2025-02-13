@@ -83,7 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Event listener for Format Request Message functionality
   document.getElementById('formatRequestButton').addEventListener('click', function () {
-    const inputRequestMessage = document.getElementById('inputRequestMessage').value;
+    // const inputRequestMessage = document.getElementById('inputRequestMessage').value;
+    const inputRequestMessage = document.getElementById('inputRequestMessage').innerText;
     if (!inputRequestMessage.trim()) {
       return;
     }
