@@ -14,7 +14,8 @@
     <option value="replaceText">Text Replacement (:) to (::)</option>
     <option value="replaceBrackets">Replace [ ] with {{}}</option>
     <option value="linkFormatter">Link Formatting Tool</option>
-    <option value="formatRequestMessage">Format Request Message</option>
+    <option value="formatRequestMessage">V1 Format Text-Comment</option>
+    <option value="addRemoveCheckbox">Add/Remove Checkbox</option>
     <option value="anotherFunction">Another Function</option>
   </select>
   <br><br>
@@ -64,6 +65,20 @@
     <label for="outputRequestComments">Comments:</label>
     <textarea id="outputRequestComments" rows="6" cols="50" readonly></textarea><br><br>
     <button id="copyComments">Copy</button>
+  </div>
+
+    <!-- Add/Remove Checkbox Tool -->
+  <div id="addRemoveCheckbox" class="functionality" style="display:none;">
+    <h3>Add/Remove Checkbox</h3>
+    <label for="inputCheckboxText">Enter your text:</label>
+    <textarea id="inputCheckboxText" rows="6" cols="50"></textarea><br><br>
+    <div>
+      <button id="addCheckboxButton">Add Checkbox</button>
+      <button id="removeCheckboxButton">Remove Checkbox</button>
+    </div><br><br>
+    <label for="outputCheckboxText">Output:</label>
+    <textarea id="outputCheckboxText" rows="6" cols="50" readonly></textarea><br><br>
+    <button id="copyCheckboxOutput">Copy</button>
   </div>
 
   <!-- Another Functionality (Example Placeholder) -->

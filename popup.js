@@ -43,6 +43,28 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
+  function addCheckbox(text) {
+  // Add "- [x] " in front of each line if not already present
+  return text
+    .split("\n")
+    .map(line => {
+      let trimmed = line.trim();
+      return trimmed.startsWith("- [x] ") ? trimmed : `- [x] ${trimmed}`;
+    })
+    .join("\n");
+}
+
+function removeCheckbox(text) {
+  // Remove "- [x] " prefix if present
+  return text
+    .split("\n")
+    .map(line => {
+      let trimmed = line.trim();
+      return trimmed.startsWith("- [x] ") ? trimmed.slice(6) : line;
+    })
+    .join("\n");
+}
+
   function updateUI() {
     const selectedFunctionality = functionalitySelect.value;
 
@@ -81,10 +103,103 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('outputFormattedLinks').value = formatLinks(inputLinks);
   });
 
+   /**
+     * Recursively process a node and return cleaned HTML.
+     * @param {Node} node - The DOM node to process.
+     * @param {boolean} parentIsAnchor - True if an ancestor is already wrapped in an anchor.
+     */
+   function cleanNode(node, parentIsAnchor = false) {
+    // For text nodes, return its text.
+    if (node.nodeType === Node.TEXT_NODE) {
+      return node.textContent;
+    }
+    
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const tag = node.tagName.toLowerCase();
+      let inner = "";
+      // Determine if current node is an anchor.
+      const isCurrentAnchor = (tag === "a");
+      
+      // Process children, passing down whether we're inside an anchor.
+      node.childNodes.forEach(child => {
+        inner += cleanNode(child, parentIsAnchor || isCurrentAnchor);
+      });
+      
+      // If the current node is an anchor, reassemble it (unless already inside an anchor)
+      if (tag === "a") {
+        if (parentIsAnchor) {
+          // If already inside an anchor, just return its content.
+          return inner;
+        } else {
+          // Recreate the anchor with a clean, empty href.
+          return `<a href="">${inner}</a>`;
+        }
+      }
+      
+      // Determine formatting flags.
+      let isBold = false;
+      let isUnderline = false;
+      
+      // Check tag names.
+      if (tag === "strong" || tag === "b") {
+        isBold = true;
+      }
+      if (tag === "u") {
+        isUnderline = true;
+      }
+      
+      // Check inline style.
+      if (node.style) {
+        if (node.style.fontWeight) {
+          const fw = node.style.fontWeight.toLowerCase();
+          if (fw === "bold" || (!isNaN(parseInt(fw)) && parseInt(fw) >= 700)) {
+            isBold = true;
+          }
+        }
+        if (node.style.textDecoration) {
+          if (node.style.textDecoration.includes("underline")) {
+            isUnderline = true;
+          }
+        }
+      }
+      
+      // Check for class names that imply underlining.
+      if (node.classList && node.classList.contains("Underlined")) {
+        isUnderline = true;
+      }
+      
+      // Wrap content based on formatting flags.
+      // If both bold and underlined and not already inside an anchor.
+      if (isBold && isUnderline && !parentIsAnchor) {
+        return `<a href=""><strong>${inner}</strong></a>`;
+      } else if (isBold) {
+        return `<strong>${inner}</strong>`;
+      } else if (isUnderline && !parentIsAnchor) {
+        return `<a href="">${inner}</a>`;
+      } else {
+        return inner;
+      }
+    }
+    return "";
+  }
+  
+  // Process the entire HTML string.
+  function cleanHTML(html) {
+    const container = document.createElement("div");
+    container.innerHTML = html;
+    let result = "";
+    container.childNodes.forEach(child => {
+      result += cleanNode(child, false);
+    });
+    return result;
+  }
+
   // Event listener for Format Request Message functionality
   document.getElementById('formatRequestButton').addEventListener('click', function () {
-    // const inputRequestMessage = document.getElementById('inputRequestMessage').value;
-    const inputRequestMessage = document.getElementById('inputRequestMessage').innerText;
+    // const inputRequestMessage = document.getElementById('inputRequestMessage').innerText;
+    const htmlContent = document.getElementById('inputRequestMessage').innerHTML;
+    const cleaned = cleanHTML(htmlContent);
+    const inputRequestMessage = cleaned.trim();;
     if (!inputRequestMessage.trim()) {
       return;
     }
@@ -93,6 +208,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('outputRequestMessage').value = formattedText;
     document.getElementById('outputRequestComments').value = comments;
+  });
+
+// Event listener for Add Checkbox functionality
+  document.getElementById('addCheckboxButton').addEventListener('click', function () {
+    const inputText = document.getElementById('inputCheckboxText').value;
+    if (!inputText.trim()) {
+      return;
+    }
+    document.getElementById('outputCheckboxText').value = addCheckbox(inputText);
+  });
+
+  // Event listener for Remove Checkbox functionality
+  document.getElementById('removeCheckboxButton').addEventListener('click', function () {
+    const inputText = document.getElementById('inputCheckboxText').value;
+    if (!inputText.trim()) {
+      return;
+    }
+    document.getElementById('outputCheckboxText').value = removeCheckbox(inputText);
   });
 
   // Copy Formatted Text to Clipboard
@@ -132,6 +265,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const outputRequestComments = document.getElementById('outputRequestComments').value;
     if (outputRequestComments.trim()) {
       navigator.clipboard.writeText(outputRequestComments);
+    }
+  });
+
+    // Copy CheckBox Output to Clipboard
+  document.getElementById('copyCheckboxOutput').addEventListener('click', function () {
+    const outputCheckboxText = document.getElementById('outputCheckboxText').value;
+    if (outputCheckboxText.trim()) {
+      navigator.clipboard.writeText(outputCheckboxText);
     }
   });
 
